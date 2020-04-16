@@ -46,6 +46,14 @@ var (
 		Help:        "Runtime of issue certificate function in seconds",
 		ConstLabels: prometheus.Labels{"name": "certman-operator"},
 	})
+	MetricLetsEncryptRequestsTotal = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "certman_operator_lets_encrypt_requests_total",
+		Help: "Total number of requests to Let's Encrypt service",
+	})
+	MetricLetsEncryptRequestsFailed = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "certman_operator_lets_encrypt_requests_failed",
+		Help: "Number of failed requests to Let's Encrypt service",
+	})
 
 	MetricsList = []prometheus.Collector{
 		MetricCertsIssuedInLastDayOpenshiftCom,
@@ -54,6 +62,8 @@ var (
 		MetricCertsIssuedInLastWeekOpenshiftAppsCom,
 		MetricDuplicateCertsIssuedInLastWeek,
 		MetricIssueCertificateDuration,
+		MetricLetsEncryptRequestsTotal,
+		MetricLetsEncryptRequestsFailed,
 	}
 )
 

@@ -31,6 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/openshift/certman-operator/config"
+	"github.com/openshift/certman-operator/pkg/localmetrics"
 )
 
 // Required collection of methods to meet the type Client interface.
@@ -70,7 +71,9 @@ func (c *ACMEClient) UpdateAccount(email string) (err error) {
 	}
 
 	account, err := c.Client.UpdateAccount(c.Account, true, contacts...)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
 	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
 		return err
 	}
 
@@ -90,7 +93,9 @@ func (c *ACMEClient) CreateOrder(domains []string) (err error) {
 		ids = append(ids, acme.Identifier{Type: "dns", Value: domain})
 	}
 	c.Order, err = c.Client.NewOrder(c.Account, ids)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
 	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
 		return err
 	}
 	return nil
@@ -113,6 +118,10 @@ func (c *ACMEClient) OrderAuthorization() []string {
 // occurs it is returned.
 func (c *ACMEClient) FetchAuthorization(authURL string) (err error) {
 	c.Authorization, err = c.Client.FetchAuthorization(c.Account, authURL)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
+	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
+	}
 	return err
 }
 
@@ -160,6 +169,10 @@ func (c *ACMEClient) GetChallengeURL() string {
 // structs Account and Challenge. If an error occurs, it is returned.
 func (c *ACMEClient) UpdateChallenge() (err error) {
 	c.Challenge, err = c.Client.UpdateChallenge(c.Account, c.Challenge)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
+	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
+	}
 	return err
 }
 
@@ -168,6 +181,10 @@ func (c *ACMEClient) UpdateChallenge() (err error) {
 // occurs, it is returned.
 func (c *ACMEClient) FinalizeOrder(csr *x509.CertificateRequest) (err error) {
 	c.Order, err = c.Client.FinalizeOrder(c.Account, c.Order, csr)
+	localmetrics.MetricLetsEncryptRequetsTotal.inc()
+	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
+	}
 	return err
 }
 
@@ -181,6 +198,10 @@ func (c *ACMEClient) GetOrderEndpoint() string {
 // is returned along with an error if one occurrs.
 func (c *ACMEClient) FetchCertificates() (certbundle []*x509.Certificate, err error) {
 	certbundle, err = c.Client.FetchCertificates(c.Account, c.Order.Certificate)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
+	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
+	}
 	return certbundle, err
 }
 
@@ -189,6 +210,10 @@ func (c *ACMEClient) FetchCertificates() (certbundle []*x509.Certificate, err er
 // If an error occurs, it is returned.
 func (c *ACMEClient) RevokeCertificate(certificate *x509.Certificate) (err error) {
 	err = c.Client.RevokeCertificate(c.Account, certificate, c.Account.PrivateKey, 0)
+	localmetrics.MetricLetsEncryptRequestsTotal.inc()
+	if err != nil {
+		localmetrics.MetricLetsEncryptRequestsFailed.inc()
+	}
 	return err
 }
 
