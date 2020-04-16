@@ -158,7 +158,10 @@
 [[projects]]
   digest = "1:d421af4c4fe51d399667d573982d663fe1fa67020a88d3ae43466ebfe8e2b5c9"
   name = "github.com/go-logr/logr"
-  packages = ["."]
+  packages = [
+    ".",
+    "testing",
+  ]
   pruneopts = "NT"
   revision = "9fb12b3b21c5415d16ac18dc5cd42c1cfdd40c4e"
   version = "v0.1.0"
@@ -423,6 +426,28 @@
   ]
   pruneopts = "NT"
   revision = "e8532c51d46fdc99060e3357da9282a3c588ee94"
+
+[[projects]]
+  branch = "master"
+  digest = "1:21f39b936b3532a22fc46e1394227bfe8b4f8ff34252eed9ed59b31216cfb360"
+  name = "github.com/openshift/certman-operator"
+  packages = [
+    "config",
+    "pkg/apis",
+    "pkg/apis/certman/v1alpha1",
+    "pkg/clients",
+    "pkg/clients/aws",
+    "pkg/clients/gcp",
+    "pkg/clients/types",
+    "pkg/controller",
+    "pkg/controller/certificaterequest",
+    "pkg/controller/clusterdeployment",
+    "pkg/controller/utils",
+    "pkg/leclient",
+    "pkg/localmetrics",
+  ]
+  pruneopts = "NT"
+  revision = "426bf98ba88061fb4d7dda6a925653e7d0765dcc"
 
 [[projects]]
   branch = "ovn-dev"
@@ -1200,12 +1225,26 @@
     "github.com/aws/aws-sdk-go/service/route53/route53iface",
     "github.com/eggsampler/acme",
     "github.com/go-logr/logr",
+    "github.com/go-logr/logr/testing",
     "github.com/go-openapi/spec",
     "github.com/lib/pq",
     "github.com/openshift/api/route/v1",
+    "github.com/openshift/certman-operator/config",
+    "github.com/openshift/certman-operator/pkg/apis",
+    "github.com/openshift/certman-operator/pkg/apis/certman/v1alpha1",
+    "github.com/openshift/certman-operator/pkg/clients",
+    "github.com/openshift/certman-operator/pkg/clients/aws",
+    "github.com/openshift/certman-operator/pkg/clients/gcp",
+    "github.com/openshift/certman-operator/pkg/clients/types",
+    "github.com/openshift/certman-operator/pkg/controller",
+    "github.com/openshift/certman-operator/pkg/controller/certificaterequest",
+    "github.com/openshift/certman-operator/pkg/controller/clusterdeployment",
+    "github.com/openshift/certman-operator/pkg/controller/utils",
+    "github.com/openshift/certman-operator/pkg/leclient",
+    "github.com/openshift/certman-operator/pkg/localmetrics",
     "github.com/openshift/hive/pkg/apis",
     "github.com/openshift/hive/pkg/apis/hive/v1",
-    "github.com/openshift/hive/pkg/apis/hive/v1alpha1/aws",
+    "github.com/openshift/hive/pkg/apis/hive/v1/aws",
     "github.com/openshift/operator-custom-metrics/pkg/metrics",
     "github.com/operator-framework/operator-sdk/pkg/leader",
     "github.com/operator-framework/operator-sdk/pkg/log/zap",
@@ -1217,7 +1256,6 @@
     "github.com/stretchr/testify/assert",
     "golang.org/x/oauth2/google",
     "google.golang.org/api/dns/v1",
-    "google.golang.org/api/googleapi",
     "google.golang.org/api/option",
     "k8s.io/api/core/v1",
     "k8s.io/apimachinery/pkg/api/errors",
